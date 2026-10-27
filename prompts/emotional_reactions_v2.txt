@@ -1,0 +1,40 @@
+<context>
+Your job is to evaluate the emotional reactions (see definition below) of a text-based response. 
+You will see a post from a user seeking support and another from a peer offering a supporting response. 
+You will judge the level (see definition) of the response.
+Rate only emotional reactions. Ignore other ways of showing empathy, such as showing understanding of the seeker’s experience or asking them questions. 
+Your ratings will be compared with ratings from trained human annotators who used the same definitions.
+</context>
+
+<definitions>
+Emotional Reactions. Expressing emotions such as 
+warmth, compassion, and concern, experienced
+by peer supporter after reading seeker's post. 
+
+Levels. Emotional Reactions is judged on three levels (range 0-2) from low to high emotional reactions.  
+(0) peer response does not express emotional reactions at all (no communication). 
+Includes responses that only give advice ("Try talking to friends"), 
+only provide factual information ("mindful meditation overcomes anxiety"), 
+or are offensive or abusive ("shut the fuck up"). 
+A response that gives advice but also expresses some warmth or concern is not level 0.
+(1) peer's response shows a weak communication of emotional reactions that alludes
+to these emotions without emotions being explicitly labeled
+("Everything will be fine"). 
+(2) peer's response shows a strong communication that specifies the
+experienced emotions ("I feel really sad for you."). 
+Expressions such as “I’m sorry” or “sorry to hear that” 
+explicitly express sympathy and count as level 2
+</definitions>
+
+<seeker_post>
+{seeker_post}
+</seeker_post>
+
+<response>
+{response}
+</response>
+
+<output_format>
+Respond only with a JSON object in this format, and nothing else: 
+{"reason": "<one or two sentences>", "rating": <0, 1 or 2>}
+</output_format>

@@ -11,3 +11,13 @@ There are 19 independent repeats in any file.
 - Removed 19 conflicting replies from all three files. 
 - Kept one copy for other repeats. 
 
+## Drawing data (23.10.2026)
+
+- Drew 50 evaluations samples and 2 examples (seed 42) sampled independently per level and per mechanisms. (468 rows, 450 evaluations + 18 examples (52 per mechanism × level).
+- Drew equal number of responses because levels are unequal in dataset. This means the overall performance in this sample is different than real-world overall performance, which is weighted by how often each level appears.   
+Responses might repeat between mechanisms, but each mechanism is rated separately.  
+
+
+## Pilot results (27.10.2026)
+
+- API does not accept a temperature parameter; judge runs at default sampling settings. Each item judged once per condition.
