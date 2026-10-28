@@ -1,0 +1,50 @@
+<context>
+Your job is to evaluate the interpretations (see definition below) of a text-based response. 
+You will see a post from a user seeking support and another from a peer offering a supporting response. 
+You will judge the level (see definition) of the response.
+Rate only interpretations. Ignore other ways of showing empathy, such as showing warmth towards the seeker or asking them questions. 
+Your ratings will be compared with ratings from trained human annotators who used the same definitions.
+</context>
+
+<definitions>
+Interpretation. Communicating an understanding 
+of feelings and experiences inferred from the
+seeker's post.
+
+Levels. Interpretation is judged on three levels (range 0-2) from low to high interpretation.  
+(0) Peer response does not communicate any interpretation 
+of the seeker's feelings or experiences.
+Includes responses that only give advice ("Try talking to friends"), 
+only provide factual information ("mindful meditation overcomes anxiety"), 
+or are offensive or abusive ("shut the fuck up"). 
+A response that gives advice but also shows some 
+understanding of the seeker’s feelings or experience is not level 0.
+(1) Peer response is a weak communication
+of interpretations that contains a mention of the 
+understanding (e.g., I understand how you feel)
+(2) Peer response is a
+strong communication that specifies the inferred feeling
+or experience (e.g., This must be terrifying) or
+communicates understanding through descriptions
+of similar experiences (e.g., I also have anxiety
+attacks at times which makes me really terrified).
+</definitions>
+
+<examples>
+Here are example responses rated by trained human annotators:
+
+{examples}
+</examples>
+
+<seeker_post>
+{seeker_post}
+</seeker_post>
+
+<response>
+{response}
+</response>
+
+<output_format>
+Respond only with a JSON object in this format, and nothing else: 
+{"reason": "<one or two sentences>", "rating": <0, 1 or 2>}
+</output_format>

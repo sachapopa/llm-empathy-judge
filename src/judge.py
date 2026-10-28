@@ -5,18 +5,28 @@ from dotenv import load_dotenv
 import os
 
 MODEL = "claude-haiku-5-5"
-PROMPTS = {
-    "level_emr": "prompts/emotional_reactions_v2.txt",
-    "level_exr": "prompts/explorations_v1.txt",
-    "level_inr": "prompts/interpretations_v1.txt",
+PROMPTS_A = {
+    "level_emr": "prompts/emotional_reactions_v2_A.txt",
+    "level_exr": "prompts/explorations_v1_A.txt",
+    "level_inr": "prompts/interpretations_v1_A.txt",
+}
+PROMPTS_B = {
+    "level_emr": "prompts/emotional_reactions_v2_B.txt",
+    "level_exr": "prompts/explorations_v1_B.txt",
+    "level_inr": "prompts/interpretations_v1_B.txt"
 }
 SEED = 42
 
-def run_mechanism(client, mechanism):
+def run_mechanism(client, mechanism, condition):
     """Runs loading of items, building prompt and calls agent per mechanism."""
-    raw_path = f"data/raw_A_{mechanism}.jsonl"
-    template = open(PROMPTS[mechanism]).read()
+    raw_path = f"data/raw_{condition}_{mechanism}.jsonl"
+    prompts = PROMPTS_A if condition == "A" else PROMPTS_B 
+    template = open(prompts[mechanism]).read()
     items = load_items(mechanism)
+    if condition == "B":
+        examples_text=format_examples(load_items(mechanism, split='examples'))
+    else:
+        examples_text = ""
     if mechanism == "level_emr":
     # 1. read pilot_results.csv
         pilot = pd.read_csv("data/pilot_results.csv")
@@ -33,7 +43,9 @@ def run_mechanism(client, mechanism):
         if row['rp_id'] in done:
             continue
        # build the prompt, call the judge, save raw, parse,
-        prompt = build_prompt(template, row['seeker_post'], row['response_post'])
+        prompt = build_prompt(template, row['seeker_post'], row['response_post'], examples_text)
+        print(prompt)
+        break
         text, usage = call_judge(client, prompt)
         save_raw(row['rp_id'], text, usage, raw_path)
         # add a dict of rp_id, human level, judge rating, reason to results
@@ -48,14 +60,14 @@ def run_mechanism(client, mechanism):
 
     df = pd.DataFrame(results)
     print(df)
-    df.to_csv(f'data/results_A_{mechanism}.csv', index=False)
+    df.to_csv(f'data/results_{condition}_{mechanism}.csv', index=False)
     print(mechanism, len(df), "items rated")
 
-def load_items(mechanism, n=None):
+def load_items(mechanism, n=None, split='evaluations'):
     """Evaluating items for one mechanism, with texts and human level."""
     sample = pd.read_csv("data/sample.csv")
     clean = pd.read_csv("data/clean.csv")
-    mask = (sample["split"] == "evaluations") & (sample["mechanism"] == mechanism)
+    mask = (sample["split"] == split) & (sample["mechanism"] == mechanism)
     filtered = sample[mask]
     merged = filtered.merge(clean[['rp_id', 'seeker_post', 'response_post']], on="rp_id", validate='one_to_one')
     if n is not None:
@@ -63,10 +75,29 @@ def load_items(mechanism, n=None):
         
     return merged
 
-def build_prompt(template, seeker_post, response):
+def format_examples(examples):
+    """Return rated examples as a text block"""
+    examples = examples.sort_values("level")
+    parts = []
+    for _, row in examples.iterrows():
+        text = f"""<example>
+<seeker_post>
+{row['seeker_post']}
+</seeker_post>
+<response>
+{row['response_post']}
+</response>
+<rating>{row['level']}</rating>
+</example>"""
+        parts.append(text)
+    return "\n\n".join(parts)
+
+
+def build_prompt(template, seeker_post, response, examples_text):
     """Put the post and reply into the template."""
     filled = template.replace("{seeker_post}", seeker_post)
     filled = filled.replace("{response}", response)
+    filled = filled.replace("{examples}", examples_text)
     
     return filled
 
@@ -119,8 +150,11 @@ def main():
     load_dotenv()
     client = anthropic.Anthropic()
 
-    for mechanism in PROMPTS:
-        run_mechanism(client, mechanism) 
+    #for mechanism in PROMPTS_A:
+        #run_mechanism(client, mechanism, condition="A") 
+
+    for mechanism in PROMPTS_B:
+        run_mechanism(client, mechanism, condition="B")
 
 if __name__ == "__main__":
     main()
