@@ -6,7 +6,7 @@ import os
 
 MODEL = "claude-haiku-5-5"
 PROMPTS = {
-    #"level_emr": "prompts/emotional_reactions_v2.txt",
+    "level_emr": "prompts/emotional_reactions_v2.txt",
     "level_exr": "prompts/explorations_v1.txt",
     "level_inr": "prompts/interpretations_v1.txt",
 }
@@ -16,7 +16,7 @@ def run_mechanism(client, mechanism):
     """Runs loading of items, building prompt and calls agent per mechanism."""
     raw_path = f"data/raw_A_{mechanism}.jsonl"
     template = open(PROMPTS[mechanism]).read()
-    items = load_items(mechanism, 5)
+    items = load_items(mechanism)
     if mechanism == "level_emr":
     # 1. read pilot_results.csv
         pilot = pd.read_csv("data/pilot_results.csv")
