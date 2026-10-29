@@ -29,7 +29,7 @@ def run_mechanism(client, mechanism, condition):
         examples_text = ""
     if mechanism == "level_emr":
     # 1. read pilot_results.csv
-        pilot = pd.read_csv("data/pilot_results.csv")
+        pilot = pd.read_csv("results/pilot_ids.csv")
     # 2. take its rp_id column to drop
         pilot = pilot["rp_id"]
     # 3. keep only items whose rp_id is NOT in those 
