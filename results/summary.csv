@@ -1,0 +1,7 @@
+n,parse_failures,exact,kappa,kappa_quadratic,input_tokens,mechanism,condition
+130,0,0.754,0.632,0.748,98715,level_emr,A
+150,0,0.627,0.44,0.444,110758,level_exr,A
+150,0,0.607,0.41,0.59,110047,level_inr,A
+130,0,0.746,0.62,0.764,246915,level_emr,B
+150,0,0.58,0.37,0.413,273958,level_exr,B
+150,0,0.62,0.43,0.567,289897,level_inr,B

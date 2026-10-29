@@ -44,8 +44,6 @@ def run_mechanism(client, mechanism, condition):
             continue
        # build the prompt, call the judge, save raw, parse,
         prompt = build_prompt(template, row['seeker_post'], row['response_post'], examples_text)
-        print(prompt)
-        break
         text, usage = call_judge(client, prompt)
         save_raw(row['rp_id'], text, usage, raw_path)
         # add a dict of rp_id, human level, judge rating, reason to results

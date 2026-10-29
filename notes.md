@@ -23,3 +23,6 @@ Responses might repeat between mechanisms, but each mechanism is rated separatel
 - API does not accept a temperature parameter; judge runs at default sampling settings. Each item judged once per condition.
 - Emotional reactions pilot: 13/20 (65%) mathched the human judgements. 3/7 disagreements were related to the judge reading "I'm sorry" as not an explicit expression of emotion. This was addressed in v2 of the prompt and pilot was rerun (16/20 matched). All disagreements were off by only one; humans gave two similar responses 0 and 2 (dam1f5h and dvd5jcq)
 - human and LLM judges only see one post and response, and some are hard to judge out of context, making multi-turn interaction evaluations important
+
+## Results - two conditions (28.10.2026)
+- A small, cheap LLM judge approaches human-level agreement on emotional reactions, but has systematic, mechanism-specific biases (too strict on strong explorations, too lenient on weak interpretations), and adding randomly chosen worked examples didn’t help, while more than doubling the cost.

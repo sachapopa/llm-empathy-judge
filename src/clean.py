@@ -28,7 +28,7 @@ def clean(df, bad_ids):
 
 def merge_three(emr, exr, inr):
     """One row per reply: rp_id, sp_id, seeker_post, response_post,
-    level_er, level_ip, level_ex."""
+    level_exr, level_inr, level_emr."""
 
     basic = emr[['rp_id', 'sp_id', 'seeker_post', 'response_post', 'level']]
     basic = basic.rename(columns={'level': 'level_emr'})
